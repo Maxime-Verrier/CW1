@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class DroneController : MonoBehaviour
 {
-    Rigidbody rigidBody;
-    const float angle = 25;
-    float xAxis, yAxis, zAxis;
-    float xAngle, yAngle, zAngle = 0;
-    float previousPitch = 0;
-    Quaternion offset;
+    private Rigidbody rigidBody;
+    private const float angle = 0.069f;
+    private const float tiltSpeed = 280;
+    private float xAngle, yAngle, zAngle = 0;
+    private Vector3 movement;
+    private Vector3 rotation;
 
     [SerializeField]
     float speed = 1;
+
+    [SerializeField]
+    float rotationSpeed = 1;
 
     [SerializeField]
     float maxSpeed = 1;
@@ -25,73 +28,60 @@ public class DroneController : MonoBehaviour
     void Update()
     {
         UserInput();
-        transform.localEulerAngles = Vector3.back * xAngle + Vector3.right * zAngle + yAngle * Vector3.up;
+//        transform.localEulerAngles = Vector3.back * xAngle + Vector3.right * zAngle + yAngle * Vector3.up;
     }
 
     private void FixedUpdate()
     {
-        rigidBody.AddForce(xAxis, yAxis, zAxis);
+        print(rotation);
+        Vector3 force = this.transform.forward * movement.z + this.transform.right * movement.x;
+
+        // This code allow us to ignore the Y relative axis while moving, as the play only move relative to the drone rotation on x/z 
+        force.y = movement.y;
+
+        rigidBody.AddForce(force * speed * Time.deltaTime);
+
+        rigidBody.rotation = Quaternion.Euler(new Vector3(rotation.x * tiltSpeed, rotation.y * rotationSpeed, rotation.z * tiltSpeed));
         rigidBody.velocity = Vector3.ClampMagnitude(Vector3.Lerp(rigidBody.velocity, Vector3.zero, Time.deltaTime), maxSpeed);
     }
 
     void UserInput()
     {
-        if (Input.GetKey(KeyCode.C))
-        {
-            yAngle = Mathf.Lerp(yAngle, 360, Time.deltaTime);
-        }
-        else
-        {
-            yAngle = Mathf.Lerp(yAngle, 0, Time.deltaTime);
-        }
-        // Y Axis input
-        if (Input.GetKey(KeyCode.Space))
-        {
-            yAxis = speed;
-        }
-        else if (Input.GetKey(KeyCode.LeftShift))
-        {
-            yAxis = -1;
-        }
-        else
-        {
-            yAxis = 0;
-        }
+        rotation.y += Input.GetKey(KeyCode.Q) ? -Time.deltaTime : (Input.GetKey(KeyCode.E) ? Time.deltaTime: 0);
+        movement.y = Input.GetKey(KeyCode.Space) ? 1 : (Input.GetKey(KeyCode.LeftShift) ? -1 : 0);
 
         // Forward/Z Axis Angle/Axis input
         if (Input.GetKey(KeyCode.W))
         {
-            zAngle = Mathf.Lerp(zAngle, angle, Time.deltaTime);
-            zAxis = speed;
+            rotation.x = Mathf.Lerp(rotation.x, angle, Time.deltaTime);
+            movement.z = 1;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            zAngle = Mathf.Lerp(zAngle, -angle, Time.deltaTime);
-            zAxis = -speed;
+            rotation.x = Mathf.Lerp(rotation.x, -angle, Time.deltaTime);
+            movement.z = -1;
         }
         else
         {
-            zAngle = Mathf.Lerp(zAngle, 0, Time.deltaTime);
-            zAxis = 0;
+            rotation.x = Mathf.Lerp(rotation.x, 0, Time.deltaTime);
+            movement.z = 0;
         }
 
-        // Left/Right or X axis/angle input
-        if (Input.GetKey(KeyCode.Q))
+        // Forward/Z Axis Angle/Axis input
+        if (Input.GetKey(KeyCode.A))
         {
-            xAngle = Mathf.Lerp(xAngle, -angle, Time.deltaTime);
-            xAxis = -speed;
+            rotation.z = Mathf.Lerp(rotation.z, angle, Time.deltaTime);
+            movement.x = -1;
         }
-        else if (Input.GetKey(KeyCode.E))
+        else if (Input.GetKey(KeyCode.D))
         {
-            xAngle = Mathf.Lerp(xAngle, angle, Time.deltaTime);
-            xAxis = speed;
+            rotation.z = Mathf.Lerp(rotation.z, -angle, Time.deltaTime);
+            movement.x = 1;
         }
         else
         {
-            xAngle = Mathf.Lerp(xAngle, 0, Time.deltaTime);
-            xAxis = 0;
+            rotation.z = Mathf.Lerp(rotation.z, 0, Time.deltaTime);
+            movement.x = 0;
         }
-
-        // Rotation From Mouse
     }
 }
