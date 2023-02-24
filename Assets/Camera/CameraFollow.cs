@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     private Vector2 angle = new Vector2(45f, 0f);
+    float lastManualRotationTime;
 
     [SerializeField]
     public Transform target = default;
@@ -25,13 +26,24 @@ public class CameraFollow : MonoBehaviour
     [SerializeField, Range(-89f, 89f)]
     float minVerticalAngle = -30f, maxVerticalAngle = 60f;
 
+    [SerializeField]
+    float minZoom = 3f;
+
+    [SerializeField]
+    float maxZoom = 8f;
+
+    [SerializeField]
+    public float zoomSpeed = 1;
+
+
     void LateUpdate()
     {
+        ApplyZoom();
         Quaternion lookRotation;
 
         if (ManualRotation())
         {
-            resetAngles();
+            ResetAngles();
             lookRotation = Quaternion.Euler(angle);
         }
         else
@@ -51,6 +63,13 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+    void ApplyZoom()
+    {
+        float zoom = Input.GetAxis("Mouse Scroll") * zoomSpeed;
+
+        if (zoom != 0) offset = Mathf.Max(Mathf.Min(offset + zoom, maxZoom), minZoom);
+    }
+
     bool ManualRotation()
     {
         Vector2 input = new Vector2(
@@ -61,11 +80,12 @@ public class CameraFollow : MonoBehaviour
         if (input.x < -e || input.x > e || input.y < -e || input.y > e)
         {
             angle += rotationSpeed * Time.unscaledDeltaTime * input;
+            lastManualRotationTime = Time.unscaledTime;
             return true;
         }
         return false;
     }
-    void resetAngles()
+    void ResetAngles()
     {
         angle.x = Mathf.Clamp(angle.x, minVerticalAngle, maxVerticalAngle);
 

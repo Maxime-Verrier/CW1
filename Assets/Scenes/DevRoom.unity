@@ -479,9 +479,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 207499152}
-  pLerp: 0.02
+  pLerp: 1
   rLerp: 1
   offset: 3
   rotationSpeed: 90
   minVerticalAngle: -30
   maxVerticalAngle: 60
+  alignDelay: 5

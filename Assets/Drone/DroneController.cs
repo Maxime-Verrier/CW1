@@ -22,6 +22,7 @@ public class DroneController : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
         rigidBody = GetComponent<Rigidbody>();
     }
 
