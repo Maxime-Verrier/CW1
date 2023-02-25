@@ -7,7 +7,6 @@ public class DroneController : MonoBehaviour
     private Rigidbody rigidBody;
     private const float angle = 0.069f;
     private const float tiltSpeed = 280;
-    private float xAngle, yAngle, zAngle = 0;
     private Vector3 movement;
     private Vector3 rotation;
 
@@ -29,12 +28,10 @@ public class DroneController : MonoBehaviour
     void Update()
     {
         UserInput();
-//        transform.localEulerAngles = Vector3.back * xAngle + Vector3.right * zAngle + yAngle * Vector3.up;
     }
 
     private void FixedUpdate()
     {
-        print(rotation);
         Vector3 force = this.transform.forward * movement.z + this.transform.right * movement.x;
 
         // This code allow us to ignore the Y relative axis while moving, as the play only move relative to the drone rotation on x/z 
