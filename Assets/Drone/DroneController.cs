@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneController : MonoBehaviour
+public class DroneController : AController, IInteractable
 {
     private Rigidbody rigidBody;
     private const float angle = 0.069f;
     private const float tiltSpeed = 280;
     private Vector3 movement;
     private Vector3 rotation;
+
+    [SerializeField]
+    float interractRange = 10;
 
     [SerializeField]
     float speed = 1;
@@ -18,6 +21,8 @@ public class DroneController : MonoBehaviour
 
     [SerializeField]
     float maxSpeed = 1;
+
+    public float Range => interractRange;
 
     void Start()
     {
@@ -81,5 +86,23 @@ public class DroneController : MonoBehaviour
             rotation.z = Mathf.Lerp(rotation.z, 0, Time.deltaTime);
             movement.x = 0;
         }
+    }
+
+    public void OnStartHover()
+    {
+    }
+
+    public void OnInteract(Player player)
+    {
+        player.SwapController(this);
+    }
+
+    public void OnEndHover()
+    {
+    }
+
+    public override void onDisabled()
+    {
+        this.rigidBody.velocity = Vector3.zero;
     }
 }

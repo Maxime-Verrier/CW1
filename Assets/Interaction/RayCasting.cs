@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
 public class RayCasting : MonoBehaviour
 {
     [SerializeField] private Transform body;
-    [SerializeField] public Camera camera = null;
+    [SerializeField] public Player player = default;
     [SerializeField] private LayerMask mask;
 
     private IInteractable target;
+
+    private void Start()
+    {
+        this.player = GetComponent<Player>();
+    }
 
     private void Update()
     {
@@ -16,20 +22,19 @@ public class RayCasting : MonoBehaviour
 
         if (target != null && Input.GetKeyDown(KeyCode.F))
         {
-            target.OnInteract();
+            target.OnInteract(player);
         }
     }
 
     private void RaycastInteractable()
     {
         RaycastHit hitted;
-        Ray ray = new Ray(camera.transform.position, camera.transform.forward);
+        Ray ray = new Ray(player.camera.transform.position, player.camera.transform.forward);
         Debug.DrawRay(ray.origin, 100 * ray.direction);
         if (Physics.Raycast(ray, out hitted, Mathf.Infinity, mask))
         {
             IInteractable interactable = hitted.collider.GetComponent<IInteractable>();
 
-            print(interactable);
             if (interactable == null || Vector3.Distance(hitted.transform.position, body.position) > interactable.Range)
             {
                 if (target != null)

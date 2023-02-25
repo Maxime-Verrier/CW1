@@ -14,13 +14,13 @@ public class InteractInteractor : MonoBehaviour, IInteractable
     {
     }
 
-    public void OnInteract()
+    public void OnInteract(Player player)
     {
         if (interactor != null)
         {
             IInteractor interc = interactor.GetComponent<IInteractor>();
 
-            if (interc != null) interc.OnInteract();
+            if (interc != null) interc.OnInteract(player);
         }
     }
 

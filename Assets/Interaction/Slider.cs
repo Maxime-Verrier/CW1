@@ -6,8 +6,9 @@ public class Slider : MonoBehaviour, IInteractor
 {
     [SerializeField] public float angle = 90;
 
-    public void OnInteract()
+    public void OnInteract(Player player)
     {
         transform.Rotate(Vector3.up, angle);
+        print("test");
     }
 }
