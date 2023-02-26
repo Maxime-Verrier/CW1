@@ -5,11 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Player))]
 public class RayCasting : MonoBehaviour
 {
-    [SerializeField] private Transform body;
-    [SerializeField] public Player player = default;
     [SerializeField] private LayerMask mask;
 
     private IInteractable target;
+    public Player player = default;
 
     private void Start()
     {
@@ -30,12 +29,11 @@ public class RayCasting : MonoBehaviour
     {
         RaycastHit hitted;
         Ray ray = new Ray(player.camera.transform.position, player.camera.transform.forward);
-        Debug.DrawRay(ray.origin, 100 * ray.direction);
+        Debug.DrawRay(ray.origin, 3 * ray.direction);
         if (Physics.Raycast(ray, out hitted, Mathf.Infinity, mask))
         {
             IInteractable interactable = hitted.collider.GetComponent<IInteractable>();
-
-            if (interactable == null || Vector3.Distance(hitted.transform.position, body.position) > interactable.Range)
+            if (interactable == null || Vector3.Distance(hitted.transform.position, player.getCurrentController().transform.position) > interactable.Range)
             {
                 if (target != null)
                 {

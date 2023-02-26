@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneController : AController, IInteractable
+public class DroneController : AController
 {
     private Rigidbody rigidBody;
     private const float angle = 0.069f;
     private const float tiltSpeed = 280;
     private Vector3 movement;
     private Vector3 rotation;
-
-    [SerializeField]
-    float interractRange = 10;
 
     [SerializeField]
     float speed = 1;
@@ -21,8 +18,6 @@ public class DroneController : AController, IInteractable
 
     [SerializeField]
     float maxSpeed = 1;
-
-    public float Range => interractRange;
 
     void Start()
     {
@@ -86,19 +81,6 @@ public class DroneController : AController, IInteractable
             rotation.z = Mathf.Lerp(rotation.z, 0, Time.deltaTime);
             movement.x = 0;
         }
-    }
-
-    public void OnStartHover()
-    {
-    }
-
-    public void OnInteract(Player player)
-    {
-        player.SwapController(this);
-    }
-
-    public void OnEndHover()
-    {
     }
 
     public override void onDisabled()

@@ -14,7 +14,7 @@ public class InteractInteractor : MonoBehaviour, IInteractable
     {
     }
 
-    public void OnInteract(Player player)
+    public virtual void OnInteract(Player player)
     {
         if (interactor != null)
         {

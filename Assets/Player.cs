@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AController mainController = default;
     [SerializeField] public CameraFollow camera = default;
 
+    public string key = null;
     private AController currentController = null;
 
     public void Start()
@@ -24,5 +25,10 @@ public class Player : MonoBehaviour
         controller.enabled = true;
         currentController = controller;
         camera.target = controller.transform;
+    }
+
+    public AController getCurrentController()
+    {
+        return currentController;
     }
 }
