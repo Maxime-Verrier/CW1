@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 3
-  hoverMessage: 
+  hoverMessage: Press F
   interactor: {fileID: 0}
+  display: {fileID: 0}
   key: 

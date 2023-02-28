@@ -47,7 +47,7 @@ public abstract class AController : MonoBehaviour, IInteractable
         camera = Camera.main;
     }
 
-    void LateUpdate()
+    protected virtual void LateUpdate()
     {
         ApplyZoom();
         Quaternion lookRotation;

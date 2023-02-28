@@ -20,7 +20,6 @@ public class HumanController : AController
 
     protected override void Start()
     {
-        Cursor.visible = false;
         rigidBody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         rigidBody.freezeRotation = true;
@@ -32,7 +31,7 @@ public class HumanController : AController
         UserInput();
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         Vector3 force = this.transform.forward * movement.z + this.transform.right * movement.x;
 

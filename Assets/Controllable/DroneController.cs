@@ -32,7 +32,7 @@ public class DroneController : AController
         UserInput();
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         Vector3 force = this.transform.forward * movement.z + this.transform.right * movement.x;
 
