@@ -5,7 +5,7 @@ using UnityEngine;
 public class DroneController : AController
 {
     private Rigidbody rigidBody;
-    private const float angle = 0.069f;
+    private const float tiltAngle = 0.069f;
     private const float tiltSpeed = 280;
     private Vector3 movement;
     private Vector3 rotation;
@@ -14,15 +14,17 @@ public class DroneController : AController
     float speed = 1;
 
     [SerializeField]
-    float rotationSpeed = 1;
+    float angularSpeed = 1;
 
     [SerializeField]
     float maxSpeed = 1;
 
-    void Start()
+    protected override void Start()
     {
         Cursor.visible = false;
         rigidBody = GetComponent<Rigidbody>();
+        rigidBody.freezeRotation = true;
+        base.Start();
     }
 
     void Update()
@@ -39,7 +41,7 @@ public class DroneController : AController
 
         rigidBody.AddForce(force * speed * Time.deltaTime);
 
-        rigidBody.rotation = Quaternion.Euler(new Vector3(rotation.x * tiltSpeed, rotation.y * rotationSpeed, rotation.z * tiltSpeed));
+//        transform.rotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x + rotation.x * tiltSpeed, transform.eulerAngles.y , transform.eulerAngles.z + rotation.z * tiltSpeed));
         rigidBody.velocity = Vector3.ClampMagnitude(Vector3.Lerp(rigidBody.velocity, Vector3.zero, Time.deltaTime), maxSpeed);
     }
 
@@ -51,12 +53,12 @@ public class DroneController : AController
         // Forward/Z Axis Angle/Axis input
         if (Input.GetKey(KeyCode.W))
         {
-            rotation.x = Mathf.Lerp(rotation.x, angle, Time.deltaTime);
+            rotation.x = Mathf.Lerp(rotation.x, tiltAngle, Time.deltaTime);
             movement.z = 1;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            rotation.x = Mathf.Lerp(rotation.x, -angle, Time.deltaTime);
+            rotation.x = Mathf.Lerp(rotation.x, -tiltAngle, Time.deltaTime);
             movement.z = -1;
         }
         else
@@ -68,12 +70,12 @@ public class DroneController : AController
         // Forward/Z Axis Angle/Axis input
         if (Input.GetKey(KeyCode.A))
         {
-            rotation.z = Mathf.Lerp(rotation.z, angle, Time.deltaTime);
+            rotation.z = Mathf.Lerp(rotation.z, tiltAngle, Time.deltaTime);
             movement.x = -1;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            rotation.z = Mathf.Lerp(rotation.z, -angle, Time.deltaTime);
+            rotation.z = Mathf.Lerp(rotation.z, -tiltAngle, Time.deltaTime);
             movement.x = 1;
         }
         else

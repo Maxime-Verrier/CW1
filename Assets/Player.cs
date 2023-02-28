@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private AController mainController = default;
-    [SerializeField] public CameraFollow camera = default;
 
     public string key = null;
     private AController currentController = null;
@@ -24,7 +23,6 @@ public class Player : MonoBehaviour
         controller.gameObject.layer = LayerMask.NameToLayer("Default");
         controller.enabled = true;
         currentController = controller;
-        camera.target = controller.transform;
     }
 
     public AController getCurrentController()

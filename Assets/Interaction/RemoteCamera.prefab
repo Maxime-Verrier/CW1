@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2659832254299175933}
   - component: {fileID: -7929536006932401069}
   m_Layer: 3
-  m_Name: Camera
+  m_Name: RemoteCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

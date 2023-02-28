@@ -28,7 +28,7 @@ public class RayCasting : MonoBehaviour
     private void RaycastInteractable()
     {
         RaycastHit hitted;
-        Ray ray = new Ray(player.camera.transform.position, player.camera.transform.forward);
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         Debug.DrawRay(ray.origin, 3 * ray.direction);
         if (Physics.Raycast(ray, out hitted, Mathf.Infinity, mask))
         {
