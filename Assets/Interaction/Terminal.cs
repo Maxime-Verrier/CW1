@@ -8,6 +8,6 @@ public class Terminal : InteractInteractor
 
     public override void OnInteract(Player player)
     {
-        if (key == null || player.key == key || player.key == "Master") base.OnInteract(player);
+        if (key == "" ||key == null || player.key == key || player.key == "Master") base.OnInteract(player);
     }
 }

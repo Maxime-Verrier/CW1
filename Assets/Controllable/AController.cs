@@ -4,9 +4,11 @@ using UnityEngine;
 
 public abstract class AController : MonoBehaviour, IInteractable
 {
-    [SerializeField] public float interactRange = 15;
+    [SerializeField] private float interactionRange = 0;
+    [SerializeField] private float interactRange = 15;
 
-    public float Range => interactRange;
+    public virtual float Range => interactRange;
+    public virtual float InteractionRange => interactionRange;
 
     public abstract void onDisabled();
 
@@ -14,7 +16,7 @@ public abstract class AController : MonoBehaviour, IInteractable
     {
     }
 
-    public void OnInteract(Player player)
+    public virtual void OnInteract(Player player)
     {
         player.SwapController(this);
     }

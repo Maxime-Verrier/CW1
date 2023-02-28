@@ -33,7 +33,7 @@ public class RayCasting : MonoBehaviour
         if (Physics.Raycast(ray, out hitted, Mathf.Infinity, mask))
         {
             IInteractable interactable = hitted.collider.GetComponent<IInteractable>();
-            if (interactable == null || Vector3.Distance(hitted.transform.position, player.getCurrentController().transform.position) > interactable.Range)
+            if (interactable == null || Vector3.Distance(hitted.transform.position, player.getCurrentController().transform.position) - player.getCurrentController().InteractionRange > interactable.Range)
             {
                 if (target != null)
                 {

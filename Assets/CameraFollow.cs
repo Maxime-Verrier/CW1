@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    private Vector2 angle = new Vector2(45f, 0f);
+    public Vector2 angle = new Vector2(45f, 0f);
     float lastManualRotationTime;
 
     [SerializeField]
@@ -23,17 +23,16 @@ public class CameraFollow : MonoBehaviour
     float rotationSpeed = 90f;
 
     [SerializeField, Range(-89f, 89f)]
-    float minVerticalAngle = -30f, maxVerticalAngle = 60f;
+    public float minVerticalAngle = -30f, maxVerticalAngle = 60f;
 
     [SerializeField]
-    float minZoom = 3f;
+    public float minZoom = 3f;
 
     [SerializeField]
-    float maxZoom = 8f;
+    public float maxZoom = 8f;
 
     [SerializeField]
     public float zoomSpeed = 1;
-
 
     void LateUpdate()
     {

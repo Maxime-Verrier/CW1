@@ -10,7 +10,7 @@ public class Elevator : MonoBehaviour, IInteractor
     private int targetIndex = 0;
     private bool moving = false;
 
-        void Update()
+    void Update()
     {
         if (moving)
         {
