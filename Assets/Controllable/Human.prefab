@@ -1075,7 +1075,7 @@ MonoBehaviour:
   humanHeight: 2
   airMultiplier: 0.4
   jumpCD: 1
-  jumpForce: 12
+  jumpForce: 5
   speed: 4
   groundLayers:
     serializedVersion: 2

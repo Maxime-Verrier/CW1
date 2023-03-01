@@ -55,13 +55,9 @@ public abstract class AController : MonoBehaviour, IInteractable
         if (ManualRotation())
         {
             ResetAngles();
-            lookRotation = Quaternion.Euler(angle); 
 
         }
-        else
-        {
-            lookRotation = camera.transform.localRotation;
-        }
+        lookRotation = Quaternion.Euler(angle);
 
         Vector3 lookPosition = Vector3.Lerp(transform.position + transform.forward * offset.z - transform.up * offset.y - transform.right * offset.x, transform.position, 0);
         camera.transform.SetPositionAndRotation(lookPosition, lookRotation);

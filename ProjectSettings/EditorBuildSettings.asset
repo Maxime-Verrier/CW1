@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelBase3.unity
     guid: 17cc4bfa37f904a409091b89d23c4499
+  - enabled: 1
+    path: Assets/Scenes/LevelBase_Drone_1.unity
+    guid: fa443d3689eb0054dbb8961dd354bb9a
   m_configObjects: {}
