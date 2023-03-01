@@ -1066,14 +1066,20 @@ MonoBehaviour:
   rotationSpeed: 90
   minVerticalAngle: -89
   maxVerticalAngle: 65
-  minZoom: 3
-  maxZoom: 8
-  zoomSpeed: 1
+  minZoom: 0
+  maxZoom: 0
+  zoomSpeed: 0
   interactionRange: 0
   interactRange: 15
-  speed: 10
-  angularSpeed: 1
-  maxSpeed: 10
+  groundDrag: 5
+  humanHeight: 2
+  airMultiplier: 0.4
+  jumpCD: 1
+  jumpForce: 12
+  speed: 4
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!136 &-5068465942422557456
 CapsuleCollider:
   m_ObjectHideFlags: 0

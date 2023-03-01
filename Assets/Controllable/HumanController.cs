@@ -7,16 +7,31 @@ public class HumanController : AController
     private Rigidbody rigidBody;
     private Animator animator;
     private Vector3 movement;
-    private Vector3 rotation;
+    private bool grounded = false;
 
     [SerializeField]
-    float speed = 1;
+    private float groundDrag = 5;
 
     [SerializeField]
-    float angularSpeed = 1;
+    private float humanHeight = 2;
 
     [SerializeField]
-    float maxSpeed = 1;
+    private float airMultiplier = 0.75f;
+
+    [SerializeField]
+    private float jumpCD = 0.75f;
+    private bool jumpping = false;
+
+    [SerializeField]
+    private float jumpForce = 0.75f;
+
+
+    [SerializeField]
+    private float speed = 1;
+
+    [SerializeField]
+    LayerMask groundLayers = default;
+
 
     protected override void Start()
     {
@@ -29,19 +44,43 @@ public class HumanController : AController
     void Update()
     {
         UserInput();
+        grounded = Physics.Raycast(transform.position, Vector3.down, 0.1f, groundLayers);
+        Debug.DrawRay(transform.position, Vector3.down * 0.1f);
+        rigidBody.drag = grounded ? groundDrag : 0;
     }
 
     protected void FixedUpdate()
     {
         Vector3 force = this.transform.forward * movement.z + this.transform.right * movement.x;
 
-        rigidBody.AddForce(force.normalized * speed, ForceMode.Force );
+        if (grounded)
+            rigidBody.AddForce(force.normalized * speed * 10f, ForceMode.Force);
+        // In air
+        else
+            rigidBody.AddForce(force.normalized * speed * 10f * airMultiplier, ForceMode.Force);
 
         animator.SetBool("isMoving", force.x + force.y + force.z != 0);
+
+        Vector3 currentVel = new Vector3(rigidBody.velocity.x, 0, rigidBody.velocity.z);
+
+        if (currentVel.magnitude > speed)
+        {
+            Vector3 cappedVel = currentVel.normalized * speed;
+            rigidBody.velocity = new Vector3(cappedVel.x, rigidBody.velocity.y, cappedVel.z);
+        }
     }
 
     void UserInput()
     {
+
+        if (grounded && !jumpping && Input.GetKey(KeyCode.Space))
+        {
+            rigidBody.velocity = new Vector3(rigidBody.velocity.x, 0f, rigidBody.velocity.z);
+            rigidBody.AddForce(jumpForce * transform.up, ForceMode.Impulse);
+            jumpping = true;
+            Invoke(nameof(JumpReset), jumpCD);
+        }
+
         if (Input.GetKey(KeyCode.W))
         {
             movement.z = 1;
@@ -71,6 +110,10 @@ public class HumanController : AController
 
     public override void onDisabled()
     {
-        this.rigidBody.velocity = Vector3.zero;
+    }
+
+    private void JumpReset()
+    {
+        jumpping = false;
     }
 }
